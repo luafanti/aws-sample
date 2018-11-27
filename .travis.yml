@@ -2,6 +2,7 @@ language: java
 jdk: oraclejdk8
 deploy:
   skip_cleanup: true
+  file: target/core-0.0.1-SNAPSHOT.jar
   provider: s3
   bucket: edxdeploy2
   secret_access_key:
