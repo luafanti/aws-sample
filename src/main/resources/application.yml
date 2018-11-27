@@ -1,0 +1,12 @@
+server:
+  port: 8090
+aws:
+  access_key_id: " "
+  secret_access_key: " "
+  s3:
+    region: us-west-2
+    bucket: edxsample
+# File size limit
+multipart:
+  maxFileSize: 4Mb
+  maxRequestSize: 4Mb
