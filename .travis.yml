@@ -4,7 +4,7 @@ deploy:
   skip_cleanup: true
   provider: s3
   bucket: edxdeploy2
-  local_dir: target
+  local_dir: target/artifact
   secret_access_key:
     secure: XmYEbzc1DrBwijAHau6fnbRS0Anv75JH8qLSQQUBa+2wWgVwPsn2DneyzVUgGv/plsQYJTZ4ZvqWQcylA3MfwN1kv43C27LLPP3ZxT55X35woJN2Xu2ElvGGvtGT0XF+XB+ImqR2Fs4ch4+UZIPonvI8y2kX0T3E7ctoKfTJnnX5POoL01WZtzBn8ktZxRbK+sq1RWfNb+DJAkiedIgd+7wdaTDF6+MbfTC+lwbu+eK5MKwmYK/R3QEJ7dcGK6pV3NQH41BTk5BvnTTzo28aClKA/COzy+1BoPDj2sT2cNHSSPlNANspsgJEp//PVUPuqrl606YmDc+vroXd4RiXggk2ADXK7yssA2wHGIiQkZfrTdKJ9WMKVXHX1P4v55QNflXvUlMRtCxuGUKdUjVgccSrrFq3bps3k/+8ngt4PHYZjU57dleSrXVyLYZsoANt/7dq0+D8vDal5Rn7laH4m8CSJICAsDPmFLxxBc3paCf1uM9+Jcg9FZU54cBcKQwrWrdxJ/a8F+uRh0tSbS8bAktOEC6aCPyq/0ZmFO71lmN9zF3oqnjapYZJCYmsM1jzbvWe/GPsdfTqzqPRZtvyICWBqdo1v+kTLzEPwuSVCjzcc08j/Tf8GpsUa9XwxB7q7n7I5Vi9h3Jzv+Zrc49PjzteMJln7HAzdcGCTushMus=
   access_key_id:
