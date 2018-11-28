@@ -60,7 +60,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<outputDirectory>artifact</outputDirectory>
+					<outputDirectory>target/artifact</outputDirectory>
 					<descriptors>
 						<descriptor>src/main/resources/zip.xml</descriptor>
 					</descriptors>
