@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import pl.lua.aws.core.repository.UploadFileRepository;
+import pl.lua.aws.core.model.UploadEntity;
 import pl.lua.aws.core.service.S3Services;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ public class S3Controller {
 
     @Autowired
     S3Services s3Services;
+    @Autowired
+    UploadFileRepository uploadFileRepository;
 
     @RequestMapping(path = "/download", method = RequestMethod.GET)
     public ResponseEntity<byte[]> download(String param) throws IOException {
@@ -47,6 +51,11 @@ public class S3Controller {
         try {
             byte[] result =  file.getBytes();
             s3Services.uploadFile(file.getOriginalFilename(),result);
+
+            UploadEntity uploadEntity = new UploadEntity();
+            uploadEntity.setFileName(file.getOriginalFilename());
+            uploadEntity.setFileSize(String.valueOf(file.getSize()));
+            uploadFileRepository.save(uploadEntity);
         }
         catch (Exception e) {
             return "redirect:/upload";

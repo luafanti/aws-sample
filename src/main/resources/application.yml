@@ -1,5 +1,15 @@
 server:
   port: 8090
+spring:
+  datasource:
+    url: jdbc:mysql://edx-photos-db.cxgrmb0mgtup.us-west-2.rds.amazonaws.com:3306/edx?autoReconnect=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+    username: root
+    password: Domek123
+    platform: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+     ddl-auto: create
 aws:
   access_key_id: " "
   secret_access_key: " "
@@ -10,3 +20,4 @@ aws:
 multipart:
   maxFileSize: 4Mb
   maxRequestSize: 4Mb
+
