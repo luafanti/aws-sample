@@ -8,7 +8,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
 import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Subsegment;
 import com.amazonaws.xray.spring.aop.XRayEnabled;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Service
-@XRayEnabled
+@Slf4j
 public class S3ServicesImpl implements S3Services {
 
     private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
@@ -76,19 +78,23 @@ public class S3ServicesImpl implements S3Services {
 
     @Override
     public void uploadFile(MultipartFile file, byte[] bytes) {
-
+        log.info("run - start");
         AWSXRay.beginSegment("Upload-File-Segment");
 
         try {
+            Subsegment subsegment1 = AWSXRay.beginSubsegment("Sleep 1");
             File newFile = new File(file.getOriginalFilename());
             FileUtils.writeByteArrayToFile(newFile, bytes)    ;
             s3client.putObject(new PutObjectRequest(bucketName, file.getOriginalFilename(), newFile));
 
+            AWSXRay.endSubsegment();
 
+            Subsegment subsegment2 = AWSXRay.beginSubsegment("Sleep 2");
             UploadEntity uploadEntity = new UploadEntity();
             uploadEntity.setFileName(file.getOriginalFilename());
             uploadEntity.setFileSize(String.valueOf(file.getSize()));
             uploadFileRepository.save(uploadEntity);
+            AWSXRay.endSubsegment();
 
             logger.info("===================== Upload File - Done! =====================");
 
@@ -107,6 +113,7 @@ public class S3ServicesImpl implements S3Services {
 
         }
 
+        log.info("run - end ");
         AWSXRay.endSegment();
     }
 
