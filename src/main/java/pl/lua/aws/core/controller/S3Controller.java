@@ -21,8 +21,7 @@ public class S3Controller {
 
     @Autowired
     S3Services s3Services;
-    @Autowired
-    UploadFileRepository uploadFileRepository;
+
 
     @RequestMapping(path = "/download", method = RequestMethod.GET)
     public ResponseEntity<byte[]> download(String param) throws IOException {
@@ -50,12 +49,7 @@ public class S3Controller {
 
         try {
             byte[] result =  file.getBytes();
-            s3Services.uploadFile(file.getOriginalFilename(),result);
-
-            UploadEntity uploadEntity = new UploadEntity();
-            uploadEntity.setFileName(file.getOriginalFilename());
-            uploadEntity.setFileSize(String.valueOf(file.getSize()));
-            uploadFileRepository.save(uploadEntity);
+            s3Services.uploadFile(file,result);
         }
         catch (Exception e) {
             return "redirect:/upload";

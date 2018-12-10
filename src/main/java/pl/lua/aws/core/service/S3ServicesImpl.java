@@ -7,18 +7,23 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import pl.lua.aws.core.model.UploadEntity;
+import pl.lua.aws.core.repository.UploadFileRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 @Service
+@XRayEnabled
 public class S3ServicesImpl implements S3Services {
 
     private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
@@ -30,6 +35,9 @@ public class S3ServicesImpl implements S3Services {
 
     @Value("${aws.s3.bucket}")
     private String bucketName;
+
+    @Autowired
+    UploadFileRepository uploadFileRepository;
 
     @Override
     public byte[] downloadFile(String keyName) {
@@ -66,12 +74,19 @@ public class S3ServicesImpl implements S3Services {
     }
 
     @Override
-    public void uploadFile(String keyName, byte[] bytes) {
+    public void uploadFile(MultipartFile file, byte[] bytes) {
 
         try {
-            File newFile = new File(keyName);
+            File newFile = new File(file.getOriginalFilename());
             FileUtils.writeByteArrayToFile(newFile, bytes)    ;
-            s3client.putObject(new PutObjectRequest(bucketName, keyName, newFile));
+            s3client.putObject(new PutObjectRequest(bucketName, file.getOriginalFilename(), newFile));
+
+
+            UploadEntity uploadEntity = new UploadEntity();
+            uploadEntity.setFileName(file.getOriginalFilename());
+            uploadEntity.setFileSize(String.valueOf(file.getSize()));
+            uploadFileRepository.save(uploadEntity);
+
             logger.info("===================== Upload File - Done! =====================");
 
         } catch (AmazonServiceException ase) {
