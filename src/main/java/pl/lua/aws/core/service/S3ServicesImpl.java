@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
+import com.amazonaws.xray.AWSXRay;
 import com.amazonaws.xray.spring.aop.XRayEnabled;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -76,6 +77,8 @@ public class S3ServicesImpl implements S3Services {
     @Override
     public void uploadFile(MultipartFile file, byte[] bytes) {
 
+        AWSXRay.beginSegment("Upload-File-Segment");
+
         try {
             File newFile = new File(file.getOriginalFilename());
             FileUtils.writeByteArrayToFile(newFile, bytes)    ;
@@ -103,6 +106,8 @@ public class S3ServicesImpl implements S3Services {
             logger.info("Error during save files: " + e.getMessage());
 
         }
+
+        AWSXRay.endSegment();
     }
 
 }
