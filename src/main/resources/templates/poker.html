@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Poker</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+
+    <script>
+        $(document).ready(function(){
+            var date_input=$('input[name="date"]'); //our date input has the name "date"
+            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        })
+    </script>
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div class="col-md-8 col-md-offset-2">
+
+        <h1>Tournaments</h1>
+        <table>
+            <th:block th:each="t : ${tournaments}">
+                <tr>
+                    <td th:text="${t.date}">...</td>
+                    <td th:text="${t.name}">...</td>
+                    <td th:text="${t.description}">...</td>
+                </tr>
+            </th:block>
+        </table>
+
+    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Create new Tournament</h3>
+        <form class="form-horizontal" action="#" th:action="@{/create-tournament}" th:object="${newTournament}" method="post">
+                <div class="form-group">
+                    <label class="control-label col-xs-4" >Tournament Name</label>
+                    <div class="col-xs-8">
+                        <input  th:field="*{name}" name="name" type="text" class="form-control" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="control-label col-xs-4">Tournament Description</label>
+                    <div class="col-xs-8">
+                        <input  th:field="*{description}" name="description" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="control-label col-xs-4">Tournament Date</label>
+                    <div class="col-xs-8">
+                        <input  th:field="*{date}" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-offset-4 col-xs-8">
+                        <button name="submit" type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

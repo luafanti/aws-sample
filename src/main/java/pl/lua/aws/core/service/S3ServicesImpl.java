@@ -27,6 +27,7 @@ import java.io.InputStream;
 
 @Service
 @Slf4j
+@XRayEnabled
 public class S3ServicesImpl implements S3Services {
 
     private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
