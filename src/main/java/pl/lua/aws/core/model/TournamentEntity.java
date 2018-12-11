@@ -28,7 +28,7 @@ public class TournamentEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "player", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "tournament", cascade=CascadeType.ALL)
     private List<TournamentScoresEntity> scores = new ArrayList<>();
 
 }

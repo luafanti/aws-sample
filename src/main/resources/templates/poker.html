@@ -41,14 +41,31 @@
     <div class="col-md-8 col-md-offset-2">
 
         <h1>Tournaments</h1>
-        <table>
-            <th:block th:each="t : ${tournaments}">
+
+        <table class="table">
+            <thead class="black white-text">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="t , iter : ${tournaments}">
                 <tr>
+                    <td th:text="${iter.index}">...</td>
                     <td th:text="${t.date}">...</td>
                     <td th:text="${t.name}">...</td>
                     <td th:text="${t.description}">...</td>
+                    <td th:text="${t.registered}">...</td>
+                    <td th:switch="${t.registered}">
+                        <a th:case="false" th:href="@{'/tournament/register/' + ${t.id}}" > Sing In</a>
+                        <a th:case="true" th:href="@{'/tournament/unregister/' + ${t.id}}" > Sing Out</a>
+                    </td>
                 </tr>
             </th:block>
+            </tbody>
         </table>
 
     </div>

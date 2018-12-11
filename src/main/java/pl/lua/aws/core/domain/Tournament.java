@@ -10,7 +10,9 @@ import java.util.Date;
 @ToString
 public class Tournament implements Serializable{
 
+    private Long id;
     private Date date;
     private String name;
     private String description;
+    private boolean registered;
 }

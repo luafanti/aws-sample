@@ -5,10 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lua.aws.core.domain.Tournament;
+import pl.lua.aws.core.model.PokerPlayerEntity;
 import pl.lua.aws.core.model.TournamentEntity;
+import pl.lua.aws.core.model.TournamentScoresEntity;
+import pl.lua.aws.core.repository.PokerPlayerRepository;
 import pl.lua.aws.core.repository.TournamentRepository;
+import pl.lua.aws.core.repository.TournamentScoresRepository;
 import pl.lua.aws.core.util.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +21,14 @@ import java.util.List;
 public class TournamentService {
 
     @Autowired
-    TournamentRepository tournamentRepository;
+    private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private PokerPlayerRepository pokerPlayerRepository;
+
+    @Autowired
+    private TournamentScoresRepository tournamentScoresRepository;
+
 
     @Transactional
     public void createTournament(Tournament tournament){
@@ -25,8 +37,48 @@ public class TournamentService {
         log.info("Create new Tournament {} ",tournamentEntity);
     }
 
+    @Transactional
+    public void registerPlayer(Long tournamentId,Long playerId){
+        TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
+        if(existingScore!=null){
+            log.warn("Player with id: {} already registered for Tournament with id: {} ",playerId,tournamentId);
+        }else{
+            TournamentEntity tournament = tournamentRepository.getOne(tournamentId);
+            PokerPlayerEntity player = pokerPlayerRepository.getOne(playerId);
+
+            TournamentScoresEntity score = new TournamentScoresEntity();
+            score.setTournament(tournament);
+            score.setPlayer(player);
+
+            tournamentScoresRepository.save(score);
+            log.info("Register player with id: {} for Tournament with id: {} ",playerId,tournamentId);
+        }
+    }
+
+    @Transactional
+    public void unregisterPlayer(Long tournamentId,Long playerId){
+        TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
+        if(existingScore!=null){
+            tournamentScoresRepository.delete(existingScore);
+            log.info("Player with id: {} unregistered from Tournament with id: {} ",playerId,tournamentId);
+        }else{
+            log.warn("Player with id: {} isn't registered for Tournament with id: {} yet",playerId,tournamentId);
+        }
+    }
+
     public List<Tournament> getAllTournaments() {
+        Long playerId = 1L;
+
         List<TournamentEntity> tournamentEntities = tournamentRepository.findAll();
-        return Mapper.mapAsList(tournamentEntities,Tournament.class);
+        List<Tournament> tournaments = new ArrayList<>();
+
+        tournamentEntities.stream().forEach(t ->{
+            Tournament tournament = Mapper.map(t,Tournament.class);
+            if(t.getScores().stream().filter(s -> s.getPlayer().getId().equals(playerId)).findAny().isPresent()) {
+                tournament.setRegistered(true);
+            }
+            tournaments.add(tournament);
+        });
+        return tournaments;
     }
 }

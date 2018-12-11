@@ -20,6 +20,6 @@ public class PokerPlayerEntity {
     @NotNull
     private String nickName;
 
-    @OneToMany(mappedBy = "tournament", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "player", cascade=CascadeType.ALL)
     private List<TournamentScoresEntity> scores = new ArrayList<>();
 }
