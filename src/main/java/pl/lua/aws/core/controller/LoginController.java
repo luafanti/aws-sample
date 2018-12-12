@@ -32,7 +32,7 @@ public class LoginController {
     private OAuth2AuthorizedClientService authorizedClientService;
 
 
-    @GetMapping("/")
+    @GetMapping("/oauth_login")
     public String getLoginPage(Model model) {
         Iterable<ClientRegistration> clientRegistrations = null;
         ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
@@ -47,7 +47,7 @@ public class LoginController {
         return "oauth_login";
     }
 
-    @GetMapping("/loginSuccess")
+    @GetMapping("/")
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
 
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
@@ -70,7 +70,7 @@ public class LoginController {
             model.addAttribute("name", userAttributes.get("name"));
         }
 
-        return "redirect:/";
+        return "main";
     }
 
 }

@@ -40,13 +40,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(userFilter(), BasicAuthenticationFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/loginFailure", "/")
+                .antMatchers("/oauth_login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .oauth2Login()
-                .loginPage("/")
+                .loginPage("/oauth_login")
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize-client")
                 .authorizationRequestRepository(authorizationRequestRepository())
@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenEndpoint()
                 .accessTokenResponseClient(accessTokenResponseClient())
                 .and()
-                .defaultSuccessUrl("/loginSuccess",true)
+                .defaultSuccessUrl("/",true)
                 .failureUrl("/loginFailure");
 
     }
