@@ -38,14 +38,14 @@ public class TournamentController {
     @RequestMapping(value = "/tournament/register/{tournamentId}", method = RequestMethod.GET)
     public String registerPlayer(@PathVariable String tournamentId) {
 
-        tournamentService.registerPlayer(Long.valueOf(tournamentId),1L);
+        tournamentService.registerPlayer(Long.valueOf(tournamentId));
         return "redirect:/tournament";
     }
 
     @RequestMapping(value = "/tournament/unregister/{tournamentId}", method = RequestMethod.GET)
     public String unregisterPlayer(@PathVariable String tournamentId) {
 
-        tournamentService.unregisterPlayer(Long.valueOf(tournamentId),1L);
+        tournamentService.unregisterPlayer(Long.valueOf(tournamentId));
         return "redirect:/tournament";
     }
 }

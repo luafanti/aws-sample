@@ -35,7 +35,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -96,6 +96,11 @@
 			<version>1.5.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
 
 	</dependencies>
 
@@ -106,11 +111,11 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<!--<jvmArguments>-->
-					 <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009-->
+					  <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009-->
 					<!--</jvmArguments>-->
-					<profiles>
-						<profile>lua</profile>
-					</profiles>
+					<!--<profiles>-->
+						<!--<profile>lua</profile>-->
+					<!--</profiles>-->
 
 				</configuration>
 			</plugin>
