@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import pl.lua.aws.core.model.PokerPlayerEntity;
+import pl.lua.aws.core.model.RoleEntity;
 import pl.lua.aws.core.model.UserEntity;
 import pl.lua.aws.core.repository.PokerPlayerRepository;
 import pl.lua.aws.core.repository.UserRepository;
@@ -15,7 +16,9 @@ import pl.lua.aws.core.repository.UserRepository;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Slf4j
@@ -39,7 +42,7 @@ public class UserFilter implements Filter {
                 if(userRepository.existsById(authentication.getName())){
                     log.info("User with id {} already registered in application. Log in success",authentication.getName());
                 }else{
-                    createUser(authentication);
+                    createUserAndRoles(authentication);
                     log.info("Create new user with id {}  in application. Log in success",authentication.getName());
                 }
             }
@@ -47,7 +50,7 @@ public class UserFilter implements Filter {
         filterChain.doFilter(servletRequest,servletResponse);
     }
 
-    private void createUser(Authentication authentication) {
+    private void createUserAndRoles(Authentication authentication) {
         DefaultOidcUser oidcUser = (DefaultOidcUser)authentication.getPrincipal();
         OAuth2AuthenticationToken auth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
         UserEntity userEntity = new UserEntity();
@@ -60,8 +63,18 @@ public class UserFilter implements Filter {
         PokerPlayerEntity pokerPlayerEntity = new PokerPlayerEntity();
         pokerPlayerEntity.setNickName(oidcUser.getFullName());
         pokerPlayerEntity = pokerPlayerRepository.save(pokerPlayerEntity);
-
         userEntity.setPlayerId(pokerPlayerEntity.getId());
+
+        List<RoleEntity> roles = new ArrayList<>();
+        RoleEntity roleUser = new RoleEntity();
+        roleUser.setAuthority("User");
+        roles.add(roleUser);
+        if (oidcUser.getEmail().equals("luafanti@gmail.com")) {
+            RoleEntity roleAdmin = new RoleEntity();
+            roleAdmin.setAuthority("Admin");
+            roles.add(roleAdmin);
+        }
+        userEntity.setRoles(roles);
         userRepository.save(userEntity);
     }
 }

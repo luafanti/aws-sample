@@ -3,11 +3,10 @@ package pl.lua.aws.core.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,4 +24,11 @@ public class UserEntity {
     private Date lastLoginDate;
 
     private Long playerId;
+
+    @ManyToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @JoinTable(name="user_roles",
+            joinColumns = {@JoinColumn(name="user_id", referencedColumnName="id")},
+            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")}
+    )
+    private List<RoleEntity> roles;
 }
