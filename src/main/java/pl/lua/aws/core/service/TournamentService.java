@@ -6,7 +6,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.lua.aws.core.domain.PokerPlayer;
 import pl.lua.aws.core.domain.Tournament;
+import pl.lua.aws.core.domain.TournamentForm;
 import pl.lua.aws.core.model.PokerPlayerEntity;
 import pl.lua.aws.core.model.TournamentEntity;
 import pl.lua.aws.core.model.TournamentScoresEntity;
@@ -37,7 +39,7 @@ public class TournamentService {
 
 
     @Transactional
-    public void createTournament(Tournament tournament){
+    public void createTournament(TournamentForm tournament){
         TournamentEntity tournamentEntity = Mapper.map(tournament,TournamentEntity.class);
         tournamentEntity = tournamentRepository.save(tournamentEntity);
         log.info("Create new Tournament {} ",tournamentEntity);
@@ -102,5 +104,23 @@ public class TournamentService {
             tournaments.add(tournament);
         });
         return tournaments;
+    }
+
+    public Tournament getTouranment(Long tournamentId){
+        TournamentEntity tournamentEntity = tournamentRepository.getOne(tournamentId);
+        if(tournamentEntity !=null ){
+            Tournament tournament = Mapper.map(tournamentEntity,Tournament.class);
+            List<PokerPlayer> participants = new ArrayList<>();
+
+            tournamentEntity.getScores().stream()
+                    .forEach(score -> {
+                        PokerPlayer pokerPlayer = Mapper.map(score.getPlayer(),PokerPlayer.class);
+                        participants.add(pokerPlayer);
+                    });
+            tournament.setParticipants(participants);
+            return tournament;
+        }else {
+            return null;
+        }
     }
 }

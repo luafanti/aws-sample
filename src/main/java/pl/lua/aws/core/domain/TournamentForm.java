@@ -1,19 +1,19 @@
 package pl.lua.aws.core.domain;
 
 import lombok.Data;
-import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
-public class Tournament implements Serializable{
+public class TournamentForm implements Serializable {
 
-    private Long id;
+    @NotNull
     private Date date;
+    @NotNull
+    @Size(min=3, max=30)
     private String name;
     private String description;
-    private boolean registered;
-    private List<PokerPlayer> participants;
 }

@@ -47,7 +47,7 @@ public class LoginController {
         return "oauth_login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/loginSuccess")
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
 
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
@@ -70,7 +70,7 @@ public class LoginController {
             model.addAttribute("name", userAttributes.get("name"));
         }
 
-        return "main";
+        return "redirect:/tournament";
     }
 
 }

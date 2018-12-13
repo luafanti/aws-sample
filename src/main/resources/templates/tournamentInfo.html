@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Poker</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
+
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script>
+
+        jQuery(document).ready(function($) {
+            $(".clickable-row").click(function() {
+                var time = $(this).data('time');
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="col-md-8 col-md-offset-2">
+
+        <h1>Tournaments</h1>
+        <p th:text="'Tournament: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
+        <table class="table table-hover">
+            <thead class="black white-text">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nick</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="p , iter : ${players}">
+                <tr class='clickable-row' >
+                    <td th:text="${iter.index}">...</td>
+                    <td th:text="${p.nickName}">...</td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+    </div>
+
+    </div>
+
+
+</body>
+</html>
