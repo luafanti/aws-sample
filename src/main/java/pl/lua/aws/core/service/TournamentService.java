@@ -3,12 +3,14 @@ package pl.lua.aws.core.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lua.aws.core.domain.PokerPlayer;
 import pl.lua.aws.core.domain.Tournament;
 import pl.lua.aws.core.domain.TournamentForm;
+import pl.lua.aws.core.helper.UserHelper;
 import pl.lua.aws.core.model.PokerPlayerEntity;
 import pl.lua.aws.core.model.TournamentEntity;
 import pl.lua.aws.core.model.TournamentScoresEntity;
@@ -19,6 +21,7 @@ import pl.lua.aws.core.repository.UserRepository;
 import pl.lua.aws.core.util.Mapper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -37,6 +40,9 @@ public class TournamentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    UserHelper userHelper;
+
 
     @Transactional
     public void createTournament(TournamentForm tournament){
@@ -48,11 +54,7 @@ public class TournamentService {
     @Transactional
     public void registerPlayer(Long tournamentId){
 
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getName();
-        Long playerId = userRepository.getPlayerIdByUserId(authentication.getName());
-
+        Long playerId = userHelper.getUserId();
         TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
         if(existingScore!=null){
             log.warn("Player with id: {} already registered for Tournament with id: {} ",playerId,tournamentId);
@@ -72,11 +74,7 @@ public class TournamentService {
     @Transactional
     public void unregisterPlayer(Long tournamentId){
 
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getName();
-        Long playerId = userRepository.getPlayerIdByUserId(authentication.getName());
-
+        Long playerId = userHelper.getUserId();
         TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
         if(existingScore!=null){
             tournamentScoresRepository.delete(existingScore);
@@ -88,11 +86,7 @@ public class TournamentService {
 
     public List<Tournament> getAllTournaments() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getName();
-        Long playerId = userRepository.getPlayerIdByUserId(authentication.getName());
-
-
+        Long playerId = userHelper.getUserId();
         List<TournamentEntity> tournamentEntities = tournamentRepository.findAll();
         List<Tournament> tournaments = new ArrayList<>();
 
