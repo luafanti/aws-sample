@@ -8,4 +8,8 @@ public class PokerPlayer {
 
     private Long id;
     private String nickName;
+    private String points;
+    private String place;
+    private String prize;
+
 }

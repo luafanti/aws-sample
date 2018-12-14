@@ -2,8 +2,6 @@ package pl.lua.aws.core.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +27,7 @@ public class TournamentController {
         Long id;
         try{
             id = Long.valueOf(tournamentId);
-            Tournament tournament = tournamentService.getTouranment(id);
+            Tournament tournament = tournamentService.getTournament(id);
             model.addAttribute("tournament", tournament);
             model.addAttribute("players",tournament.getParticipants());
             return "tournamentInfo";

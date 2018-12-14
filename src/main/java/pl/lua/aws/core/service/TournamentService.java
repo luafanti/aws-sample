@@ -22,6 +22,7 @@ import pl.lua.aws.core.util.Mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -92,6 +93,9 @@ public class TournamentService {
 
         tournamentEntities.stream().forEach(t ->{
             Tournament tournament = Mapper.map(t,Tournament.class);
+            if(tournament.getDate()!=null && tournament.getDate().before(new Date())){
+                tournament.setFinished(true);
+            }
             if(t.getScores().stream().filter(s -> s.getPlayer().getId().equals(playerId)).findAny().isPresent()) {
                 tournament.setRegistered(true);
             }
@@ -100,15 +104,21 @@ public class TournamentService {
         return tournaments;
     }
 
-    public Tournament getTouranment(Long tournamentId){
+    public Tournament getTournament(Long tournamentId){
         TournamentEntity tournamentEntity = tournamentRepository.getOne(tournamentId);
         if(tournamentEntity !=null ){
             Tournament tournament = Mapper.map(tournamentEntity,Tournament.class);
+            if(tournament.getDate()!=null && tournament.getDate().before(new Date())){
+                tournament.setFinished(true);
+            }
             List<PokerPlayer> participants = new ArrayList<>();
 
             tournamentEntity.getScores().stream()
                     .forEach(score -> {
                         PokerPlayer pokerPlayer = Mapper.map(score.getPlayer(),PokerPlayer.class);
+                        pokerPlayer.setPlace(score.getPlace());
+                        pokerPlayer.setPoints(score.getPoints());
+                        pokerPlayer.setPrize(score.getPrize());
                         participants.add(pokerPlayer);
                     });
             tournament.setParticipants(participants);

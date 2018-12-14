@@ -15,7 +15,14 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-     ddl-auto: create
+     ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 842903314955-ch28m3sic22tro7jhl0ir9ib73c440rk.apps.googleusercontent.com
+            client-secret: KPgIP-intng2vKOGnC2c3eer
 
 # File size limit
 multipart:

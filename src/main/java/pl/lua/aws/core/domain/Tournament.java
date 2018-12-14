@@ -15,5 +15,6 @@ public class Tournament implements Serializable{
     private String name;
     private String description;
     private boolean registered;
+    private boolean finished;
     private List<PokerPlayer> participants;
 }

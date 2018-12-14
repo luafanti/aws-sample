@@ -15,6 +15,7 @@ public class TournamentScoresEntity {
     private Long id;
     private String points;
     private String place;
+    private String prize;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")

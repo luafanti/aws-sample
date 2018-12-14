@@ -68,8 +68,8 @@
                     <td th:text="${t.date}">...</td>
                     <td th:text="${t.name}">...</td>
                     <td th:text="${t.description}">...</td>
-                    <td th:text="${t.registered}">...</td>
-                    <td th:switch="${t.registered}">
+                    <td th:text="${t.finished}">...</td>
+                    <td th:if="${!t.finished}"th:switch="${t.registered}">
                         <a th:case="false" th:href="@{'/tournament/register/' + ${t.id}}" > Sing In</a>
                         <a th:case="true" th:href="@{'/tournament/unregister/' + ${t.id}}" > Sing Out</a>
                     </td>

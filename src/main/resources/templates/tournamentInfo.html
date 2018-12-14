@@ -29,28 +29,34 @@
     <div class="col-md-8 col-md-offset-2">
 
         <h1>Tournaments</h1>
-        <p th:text="'Tournament: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
-        <table class="table table-hover">
-            <thead class="black white-text">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nick</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="p , iter : ${players}">
-                <tr class='clickable-row' >
-                    <td th:text="${iter.index}">...</td>
-                    <td th:text="${p.nickName}">...</td>
+
+        <div th:if="${tournament.finished}">
+            <p th:text="'Tournament finished: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
+        </div>
+        <!-- ELSE -->
+        <div th:unless="${tournament.finished}">
+
+            <p th:text="'Tournament: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
+            <table class="table table-hover">
+                <thead class="black white-text">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nick</th>
                 </tr>
-            </th:block>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <th:block th:each="p , iter : ${players}">
+                    <tr class='clickable-row'>
+                        <td th:text="${iter.index}">...</td>
+                        <td th:text="${p.nickName}">...</td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+
 
     </div>
-
-    </div>
-
-
+</div>
 </body>
 </html>
