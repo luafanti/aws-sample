@@ -73,4 +73,8 @@ public class LoginController {
         return "redirect:/tournament";
     }
 
+    @GetMapping("/")
+    public String mainPageRedirect() {
+        return "redirect:/tournament";
+    }
 }
