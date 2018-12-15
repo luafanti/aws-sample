@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.lua.aws.core.domain.Tournament;
 import pl.lua.aws.core.domain.TournamentForm;
+import pl.lua.aws.core.helper.UserHelper;
 import pl.lua.aws.core.service.TournamentService;
 
 import javax.validation.Valid;
@@ -19,6 +20,8 @@ public class TournamentController {
 
     @Autowired
     private TournamentService tournamentService;
+    @Autowired
+    private UserHelper userHelper;
 
 
 
@@ -30,6 +33,7 @@ public class TournamentController {
             Tournament tournament = tournamentService.getTournament(id);
             model.addAttribute("tournament", tournament);
             model.addAttribute("players",tournament.getParticipants());
+            model.addAttribute("userAdmin" ,userHelper.isAdminUser());
             return "tournamentInfo";
 
         }catch (NumberFormatException e){
@@ -39,7 +43,6 @@ public class TournamentController {
             log.warn("Unexpected exception. Exception: {}", e.getMessage());
             return "redirect:/tournament";
         }
-
     }
 
     @RequestMapping(value = "/tournament", method = RequestMethod.GET)
@@ -67,6 +70,7 @@ public class TournamentController {
         tournamentService.createTournament(newTournament);
         return "redirect:/tournament";
     }
+
 
     @RequestMapping(value = "/tournament/register/{tournamentId}", method = RequestMethod.GET)
     public String registerPlayer(@PathVariable String tournamentId) {
