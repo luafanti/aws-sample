@@ -63,10 +63,10 @@
                 <a href="#">Dashboard</a>
             </li>
             <li>
-                <a href="upload.html">Upload</a>
+                <a href="/tournament">Tournament</a>
             </li>
             <li>
-                <a href="/tournament">Poker</a>
+                <a href="/ranking">Ranking</a>
             </li>
         </ul>
     </div>
@@ -90,6 +90,7 @@
                         <th scope="col">Date</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Finished</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -101,8 +102,8 @@
                             <td th:text="${t.description}">...</td>
                             <td th:text="${t.finished}">...</td>
                             <td th:if="${!t.finished}" th:switch="${t.registered}">
-                                <a th:case="false" th:href="@{'/tournament/register/' + ${t.id}}"> Sing In</a>
-                                <a th:case="true" th:href="@{'/tournament/unregister/' + ${t.id}}"> Sing Out</a>
+                                <a class="btn btn-secondary" th:case="false" th:href="@{'/tournament/register/' + ${t.id}}"> Sing In</a>
+                                <a class="btn btn-secondary" th:case="true" th:href="@{'/tournament/unregister/' + ${t.id}}"> Sing Out</a>
                             </td>
                         </tr>
                     </th:block>

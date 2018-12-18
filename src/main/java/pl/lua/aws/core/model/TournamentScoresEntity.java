@@ -13,9 +13,10 @@ public class TournamentScoresEntity {
     @Column(nullable = false)
     @GeneratedValue
     private Long id;
-    private String points;
+    private Integer points;
     private String place;
-    private String prize;
+    @Column(columnDefinition = "DECIMAL(19,2)")
+    private Double prize;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
