@@ -5,9 +5,9 @@
     <title>Scores</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
-
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
     <!--  jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -21,43 +21,86 @@
 </head>
 <body>
 
+<div id="wrapper">
 
-<div class="container">
-    <div class="col-md-8 col-md-offset-2">
-        <h1>Edit Scores</h1>
-        
-        <form action="#" th:action="@{/scores}" th:object="${tournament}" method="post">
-            <input type="hidden" th:field="*{id}"/>
-            <table class="table table-hover">
-                <thead class="black white-text">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nick</th>
-                    <th scope="col">Place</th>
-                    <th scope="col">Points</th>
-                    <th scope="col">Prize</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="p , iter : *{participants}">
-                    <tr class='clickable-row'>
-                        <td th:text="${iter.index}">...</td>
-                        <td th:text="${p.nickName}">...</td>
-                        <td><input type="number" th:field="*{participants[__${iter.index}__].place}"/></td>
-                        <td><input type="number" th:field="*{participants[__${iter.index}__].points}"/></td>
-                        <td><input type="number" th:field="*{participants[__${iter.index}__].prize}"/></td>
-                        <input type="hidden" th:field="*{participants[__${iter.index}__].id}"/>
-                        <input type="hidden" th:field="*{participants[__${iter.index}__].nickName}"/>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Poker Club
+                </a>
+            </li>
+            <li>
+                <a href="#">Dashboard</a>
+            </li>
+            <li>
+                <a href="upload.html">Upload</a>
+            </li>
+            <li>
+                <a href="/tournament">Poker</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
 
-            <div class="col-xs-offset-4 col-xs-8">
-                <button name="submit" type="submit" class="btn btn-primary">Set Scores</button>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+
+                <div class=" col-md-offset-2">
+                    <div class="page-header">
+                        <h1>Edit Scores</h1>
+                        <h3 th:text="'Tournament: ' + ${tournament.name} "></h3>
+                    </div>
+
+                    <form action="#" th:action="@{/scores}" th:object="${tournament}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <table class="table table-hover">
+                            <thead class="black white-text">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nick</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Points</th>
+                                <th scope="col">Prize</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="p , iter : *{participants}">
+                                <tr class='clickable-row'>
+                                    <td th:text="${iter.index}">...</td>
+                                    <td th:text="${p.nickName}">...</td>
+                                    <td><input type="number" th:field="*{participants[__${iter.index}__].place}"/></td>
+                                    <td><input type="number" th:field="*{participants[__${iter.index}__].points}"/></td>
+                                    <td><input type="number" th:field="*{participants[__${iter.index}__].prize}"/></td>
+                                    <input type="hidden" th:field="*{participants[__${iter.index}__].id}"/>
+                                    <input type="hidden" th:field="*{participants[__${iter.index}__].nickName}"/>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                        <div class="col-xs-offset-4 col-xs-8">
+                            <button name="submit" type="submit" class="btn btn-primary">Set Scores</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
+
+
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 </body>
 </html>

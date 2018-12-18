@@ -5,10 +5,9 @@
     <title>Poker</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
-
-
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
     <!--  jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -21,66 +20,106 @@
             });
         });
     </script>
+
 </head>
 <body>
 
+<div id="wrapper">
 
-<div class="container">
-    <div class="col-md-8 col-md-offset-2">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Poker Club
+                </a>
+            </li>
+            <li>
+                <a href="#">Dashboard</a>
+            </li>
+            <li>
+                <a href="upload.html">Upload</a>
+            </li>
+            <li>
+                <a href="/tournament">Poker</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
 
-        <h1>Tournaments</h1>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+
+                <div class=" col-md-offset-2">
+                    <div class="page-header">
+                        <h1 th:text="'Tournament: ' + ${tournament.name} "></h1>
+                        <h3 th:text="'Date: ' + ${tournament.date}" </h3>
+                    </div>
 
 
-        <div th:if="${tournament.finished}">
-            <p th:text="'Tournament finished: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
-            <table class="table table-hover">
-                <thead class="black white-text">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nick</th>
-                    <th scope="col">Place</th>
-                    <th scope="col">Points</th>
-                    <th scope="col">Prize</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="p , iter : ${players}">
-                    <tr class='clickable-row'>
-                        <td th:text="${iter.index}">...</td>
-                        <td th:text="${p.nickName}">...</td>
-                        <td th:text="${p.place}">...</td>
-                        <td th:text="${p.points}">...</td>
-                        <td th:text="${p.prize}">...</td>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
+                    <div th:if="${tournament.finished}">
+                        <p </p>
+                        <table class="table table-hover">
+                            <thead class="black white-text">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nick</th>
+                                <th scope="col">Place</th>
+                                <th scope="col">Points</th>
+                                <th scope="col">Prize</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="p , iter : ${players}">
+                                <tr class='clickable-row'>
+                                    <td th:text="${iter.index}">...</td>
+                                    <td th:text="${p.nickName}">...</td>
+                                    <td th:text="${p.place}">...</td>
+                                    <td th:text="${p.points}">...</td>
+                                    <td th:text="${p.prize}">...</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
 
-            <div th:if="${userAdmin}">
-                <a th:href="@{'/scores/' + ${tournament.id}} ">Set Scores</a>
+                        <div th:if="${userAdmin}">
+                            <a class="btn btn-secondary" th:href="@{'/scores/' + ${tournament.id}} ">Set Scores</a>
+                        </div>
+                    </div>
+                    <div th:unless="${tournament.finished}">
+
+
+                        <table class="table table-hover">
+                            <thead class="black white-text">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nick</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="p , iter : ${players}">
+                                <tr class='clickable-row'>
+                                    <td th:text="${iter.index}">...</td>
+                                    <td th:text="${p.nickName}">...</td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <div th:unless="${tournament.finished}">
-
-            <p th:text="'Tournament: ' + ${tournament.name} +' Date: ' + ${tournament.date}"></p>
-            <table class="table table-hover">
-                <thead class="black white-text">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nick</th>
-                </tr>
-                </thead>
-                <tbody>
-                <th:block th:each="p , iter : ${players}">
-                    <tr class='clickable-row'>
-                        <td th:text="${iter.index}">...</td>
-                        <td th:text="${p.nickName}">...</td>
-                    </tr>
-                </th:block>
-                </tbody>
-            </table>
-        </div>
     </div>
-</div>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>

@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(userFilter(), BasicAuthenticationFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/oauth_login")
+                .antMatchers("/oauth_login","/css/**","/js/**","/img/**","/vendor/**","/fonts/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

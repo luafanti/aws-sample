@@ -48,7 +48,7 @@ public class ScoreController {
             }
         }else {
             log.warn("User {} haven't permission to edit players scores");
-            return "poker";
+            return "tournament";
         }
     }
 

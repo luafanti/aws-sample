@@ -51,7 +51,8 @@ public class TournamentController {
         List<Tournament> tournaments =tournamentService.getAllTournaments();
         model.addAttribute("tournaments", tournaments);
         model.addAttribute("newTournament", new Tournament());
-        return "poker";
+        model.addAttribute("userAdmin" ,userHelper.isAdminUser());
+        return "tournament";
     }
 
     @RequestMapping(value = "/create-tournament", method = RequestMethod.POST)
@@ -64,7 +65,7 @@ public class TournamentController {
             List<Tournament> tournaments =tournamentService.getAllTournaments();
             model.addAttribute("tournaments", tournaments);
             model.addAttribute("newTournament", new Tournament());
-            return "poker";
+            return "tournament";
         }
 
         tournamentService.createTournament(newTournament);
