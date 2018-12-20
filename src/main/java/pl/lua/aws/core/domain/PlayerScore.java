@@ -7,6 +7,7 @@ public class PlayerScore {
 
     private Long playerId;
     private String nickName;
+    private String avatarUrl;
     private Integer totalPoints;
     private Integer place;
     private Integer wins;

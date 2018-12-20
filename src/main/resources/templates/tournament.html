@@ -47,7 +47,7 @@
 
 </head>
 
-<body class="bg">
+<body>
 
 <div id="wrapper">
 
@@ -68,6 +68,9 @@
             <li>
                 <a href="/ranking">Ranking</a>
             </li>
+            <li>
+                <a href="/edit-player">Player</a>
+            </li>
         </ul>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -80,8 +83,6 @@
                 <div class="page-header">
                     <h1>Tournament List</h1>
                 </div>
-
-
 
                 <table class="table table-hover ">
                     <thead class="black white-text">
@@ -102,8 +103,10 @@
                             <td th:text="${t.description}">...</td>
                             <td th:text="${t.finished}">...</td>
                             <td th:if="${!t.finished}" th:switch="${t.registered}">
-                                <a class="btn btn-secondary" th:case="false" th:href="@{'/tournament/register/' + ${t.id}}"> Sing In</a>
-                                <a class="btn btn-secondary" th:case="true" th:href="@{'/tournament/unregister/' + ${t.id}}"> Sing Out</a>
+                                <a class="btn btn-secondary" th:case="false"
+                                   th:href="@{'/tournament/register/' + ${t.id}}"> Sing In</a>
+                                <a class="btn btn-secondary" th:case="true"
+                                   th:href="@{'/tournament/unregister/' + ${t.id}}"> Sing Out</a>
                             </td>
                         </tr>
                     </th:block>
@@ -126,7 +129,8 @@
                         <label class="control-label col-xs-4">Tournament Description</label>
                         <div class="col-xs-8">
                             <input th:field="*{description}" name="description" type="text" class="form-control">
-                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description Error</p>
+                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">description
+                                Error</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -144,12 +148,9 @@
             </div>
         </div>
 
-        </div>
     </div>
 </div>
-
-
-
+</div>
 
 
 <!-- Menu Toggle Script -->

@@ -19,6 +19,8 @@ public class PokerPlayerEntity {
 
     @NotNull
     private String nickName;
+    private String avatarUrl;
+    private String avatarFileName;
 
     @OneToMany(mappedBy = "player", cascade=CascadeType.ALL)
     private List<TournamentScoresEntity> scores = new ArrayList<>();

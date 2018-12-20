@@ -13,6 +13,13 @@
     <link href="css/simple-sidebar.css" rel="stylesheet">
 
 
+    <script src="js/easytimer.min.js"></script>
+    <script>
+
+    </script>
+
+
+
 </head>
 
 <body>
@@ -75,6 +82,9 @@
             <li>
                 <a href="/ranking">Ranking</a>
             </li>
+            <li>
+                <a href="/edit-player">Player</a>
+            </li>
         </ul>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -88,6 +98,16 @@
             <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
 
 
+            <div id="chronoExample">
+                <div class="values">00:00:00</div>
+                <div>
+                    <button class="startButton">Start</button>
+                    <button class="pauseButton" >Pause</button>
+                    <button class="stopButton">Stop</button>
+                    <button class="resetButton">Reset</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -96,12 +116,51 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 
-<!-- Menu Toggle Script -->
+
 <script>
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+    var timer = new easytimer.Timer();
+
+//    timer.start({precision: 'seconds', target: {seconds: 4}});
+//    $('#startValuesAndTargetExample .values').html(timer.getTimeValues().toString());
+//
+//    timer.addEventListener('secondsUpdated', function (e) {
+//        $('#startValuesAndTargetExample .values').html(timer.getTimeValues().toString());
+//        $('#startValuesAndTargetExample .progress_bar').html($('#startValuesAndTargetExample .progress_bar').html() + '.');
+//    });
+//    timer.addEventListener('targetAchieved', function (e) {
+//        $('#startValuesAndTargetExample .progress_bar').html('COMPLETE!!');
+//    });
+
+
+    var timer = new easytimer.Timer();
+
+    $('#chronoExample .startButton').click(function () {
+        timer.start({precision: 'seconds', target: {seconds: 4}});
+
     });
+    $('#chronoExample .pauseButton').click(function () {
+        timer.pause();
+    });
+    $('#chronoExample .stopButton').click(function () {
+        timer.stop();
+    });
+    $('#chronoExample .resetButton').click(function () {
+        timer.reset();
+    });
+    timer.addEventListener('secondsUpdated', function (e) {
+        $('#chronoExample .values').html(timer.getTimeValues().toString());
+    });
+    timer.addEventListener('started', function (e) {
+        $('#chronoExample .values').html(timer.getTimeValues().toString());
+    });
+    timer.addEventListener('reset', function (e) {
+        $('#chronoExample .values').html(timer.getTimeValues().toString());
+    });
+
+        timer.addEventListener('targetAchieved', function (e) {
+            $('#startValuesAndTargetExample .progress_bar').html('COMPLETE!!');
+        });
+
 </script>
 </body>
 

@@ -25,6 +25,7 @@ public class RankingService {
         pokerPlayerEntities.stream().forEach(player->{
             PlayerScore playerScore = new PlayerScore();
             playerScore.setNickName(player.getNickName());
+            playerScore.setAvatarUrl(player.getAvatarUrl());
             playerScore.setPlayerId(player.getId());
 
             List<TournamentScoresEntity> scoresEntities = player.getScores();

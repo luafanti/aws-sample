@@ -51,7 +51,7 @@ public class TournamentService {
     @Transactional
     public void registerPlayer(Long tournamentId){
 
-        Long playerId = userHelper.getUserId();
+        Long playerId = userHelper.getPlayerId();
         TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
         if(existingScore!=null){
             log.warn("Player with id: {} already registered for Tournament with id: {} ",playerId,tournamentId);
@@ -71,7 +71,7 @@ public class TournamentService {
     @Transactional
     public void unregisterPlayer(Long tournamentId){
 
-        Long playerId = userHelper.getUserId();
+        Long playerId = userHelper.getPlayerId();
         TournamentScoresEntity existingScore = tournamentScoresRepository.findByTournament_IdAndPlayer_Id(tournamentId,playerId);
         if(existingScore!=null){
             tournamentScoresRepository.delete(existingScore);
@@ -83,7 +83,7 @@ public class TournamentService {
 
     public List<Tournament> getAllTournaments() {
 
-        Long playerId = userHelper.getUserId();
+        Long playerId = userHelper.getPlayerId();
         List<TournamentEntity> tournamentEntities = tournamentRepository.findAll();
         List<Tournament> tournaments = new ArrayList<>();
 

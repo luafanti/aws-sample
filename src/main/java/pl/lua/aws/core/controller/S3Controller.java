@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import pl.lua.aws.core.repository.UploadFileRepository;
-import pl.lua.aws.core.model.UploadEntity;
 import pl.lua.aws.core.service.S3Services;
 
 import java.io.IOException;
@@ -55,8 +53,7 @@ public class S3Controller {
     public String uploadFile(@RequestParam("file") MultipartFile file) {
 
         try {
-            byte[] result =  file.getBytes();
-            s3Services.uploadFile(file,result);
+            s3Services.uploadFile(file,null);
         }
         catch (Exception e) {
             return "redirect:/upload";

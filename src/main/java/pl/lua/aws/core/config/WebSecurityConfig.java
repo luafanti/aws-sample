@@ -39,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterAfter(userFilter(), BasicAuthenticationFilter.class);
 
+        http.csrf()
+                .disable();
+
         http.authorizeRequests()
                 .antMatchers("/oauth_login","/css/**","/js/**","/img/**","/vendor/**","/fonts/**")
                 .permitAll()

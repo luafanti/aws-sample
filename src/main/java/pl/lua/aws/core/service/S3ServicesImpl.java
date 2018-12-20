@@ -3,13 +3,11 @@ package pl.lua.aws.core.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.util.IOUtils;
-import com.amazonaws.xray.AWSXRay;
-import com.amazonaws.xray.entities.Subsegment;
-import com.amazonaws.xray.spring.aop.XRayEnabled;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -18,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pl.lua.aws.core.domain.UploadS3Object;
 import pl.lua.aws.core.model.UploadEntity;
 import pl.lua.aws.core.repository.UploadFileRepository;
 
@@ -27,7 +26,6 @@ import java.io.InputStream;
 
 @Service
 @Slf4j
-@XRayEnabled
 public class S3ServicesImpl implements S3Services {
 
     private Logger logger = LoggerFactory.getLogger(S3ServicesImpl.class);
@@ -38,10 +36,33 @@ public class S3ServicesImpl implements S3Services {
     private AmazonS3 s3client;
 
     @Value("${aws.s3.bucket}")
-    private String bucketName;
+    private String mainBucketName;
+
+    @Value("${aws.s3.avatar-bucket}")
+    private String avatarBucketName;
+
 
     @Autowired
     UploadFileRepository uploadFileRepository;
+
+
+    @Override
+    public UploadS3Object uploadPlayerAvatar(MultipartFile file) {
+        uploadFile(file,avatarBucketName);
+        UploadS3Object avatar= new UploadS3Object();
+        avatar.setFileName(file.getOriginalFilename());
+        avatar.setFileSize(String.valueOf(file.getSize()));
+        return avatar;
+    }
+
+    @Override
+    public void deletePlayerAvatar(String fileName) {
+        if(fileName!=null && !fileName.isEmpty()){
+            deleteFile(fileName,avatarBucketName);
+        }
+    }
+
+
 
     @Override
     public byte[] downloadFile(String keyName) {
@@ -49,7 +70,7 @@ public class S3ServicesImpl implements S3Services {
         try {
 
             System.out.println("Downloading an object");
-            S3Object s3object = s3client.getObject(new GetObjectRequest(bucketName, keyName));
+            S3Object s3object = s3client.getObject(new GetObjectRequest(mainBucketName, keyName));
             InputStream in = s3object.getObjectContent();
             byte[] bytes = IOUtils.toByteArray(in);
 
@@ -78,24 +99,22 @@ public class S3ServicesImpl implements S3Services {
     }
 
     @Override
-    public void uploadFile(MultipartFile file, byte[] bytes) {
-        log.info("run - start");
-        AWSXRay.beginSegment("Upload-File-Segment");
+    public void uploadFile(MultipartFile file,String bucketName) {
+
+        if(bucketName==null){
+            bucketName = mainBucketName;
+        }
 
         try {
-            Subsegment subsegment1 = AWSXRay.beginSubsegment("Sleep 1");
+            byte[] bytes =  file.getBytes();
             File newFile = new File(file.getOriginalFilename());
             FileUtils.writeByteArrayToFile(newFile, bytes)    ;
             s3client.putObject(new PutObjectRequest(bucketName, file.getOriginalFilename(), newFile));
 
-            AWSXRay.endSubsegment();
-
-            Subsegment subsegment2 = AWSXRay.beginSubsegment("Sleep 2");
-            UploadEntity uploadEntity = new UploadEntity();
-            uploadEntity.setFileName(file.getOriginalFilename());
-            uploadEntity.setFileSize(String.valueOf(file.getSize()));
-            uploadFileRepository.save(uploadEntity);
-            AWSXRay.endSubsegment();
+//            UploadEntity uploadEntity = new UploadEntity();
+//            uploadEntity.setFileName(file.getOriginalFilename());
+//            uploadEntity.setFileSize(String.valueOf(file.getSize()));
+//            uploadFileRepository.save(uploadEntity);
 
             logger.info("===================== Upload File - Done! =====================");
 
@@ -114,8 +133,28 @@ public class S3ServicesImpl implements S3Services {
 
         }
 
-        log.info("run - end ");
-        AWSXRay.endSegment();
     }
+
+
+    private void deleteFile(String fileName, String bucketName) {
+
+        try {
+            s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+            logger.info("===================== Delete File - Done! =====================");
+
+        } catch (AmazonServiceException ase) {
+            logger.info("Caught an AmazonServiceException from DELETE requests, rejected reasons:");
+            logger.info("Error Message:    " + ase.getMessage());
+            logger.info("HTTP Status Code: " + ase.getStatusCode());
+            logger.info("AWS Error Code:   " + ase.getErrorCode());
+            logger.info("Error Type:       " + ase.getErrorType());
+            logger.info("Request ID:       " + ase.getRequestId());
+        } catch (AmazonClientException ace) {
+            logger.info("Caught an AmazonClientException: ");
+            logger.info("Error Message: " + ace.getMessage());
+
+        }
+    }
+
 
 }

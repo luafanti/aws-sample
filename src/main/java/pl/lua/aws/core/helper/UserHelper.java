@@ -20,7 +20,7 @@ public class UserHelper {
     @Autowired
     UserRepository userRepository;
 
-    public Long getUserId(){
+    public Long getPlayerId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getName();
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    authentication.getAuthorities();
