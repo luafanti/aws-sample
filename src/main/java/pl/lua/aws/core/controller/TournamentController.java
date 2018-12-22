@@ -72,6 +72,12 @@ public class TournamentController {
         return "redirect:/tournament";
     }
 
+    @RequestMapping(value= "/tournament-board", method = RequestMethod.GET)
+    public String tournamentStopwatch() {
+        return "stopwatch";
+    }
+
+
 
     @RequestMapping(value = "/tournament/register/{tournamentId}", method = RequestMethod.GET)
     public String registerPlayer(@PathVariable String tournamentId) {

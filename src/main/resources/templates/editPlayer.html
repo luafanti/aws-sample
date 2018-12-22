@@ -40,6 +40,10 @@
             <li>
                 <a href="/edit-player">Player</a>
             </li>
+            <li>
+                <a href="/tournament-board">Tournament board</a>
+            </li>
+
         </ul>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -87,8 +91,9 @@
                                 <img th:src="${(player.avatarUrl != null && !#strings.isEmpty(player.avatarUrl)) ? player.avatarUrl : '//placehold.it/150'}"
                                      alt="Profile Picture" class="m-x-auto img-fluid img-circle"
                                      style="max-height: 150px; max-width: 150px;">
+
                                 <div>
-                                    <label class="btn btn-primary btn-file">
+                                    <label class="btn btn-secondary btn-file">
                                         Browse <input type="file" name="file" style="display: none;">
                                     </label>
                                     <input class="btn btn-primary" type="submit" value="Upload Avatar">
@@ -101,7 +106,6 @@
 
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>

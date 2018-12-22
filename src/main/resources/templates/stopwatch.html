@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+
+    <title>Tournament Stopwatch</title>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
+
+
+    <script src="js/easytimer.min.js"></script>
+
+    <script>
+
+    </script>
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a href="#">
+                Poker Club
+            </a>
+        </li>
+        <li>
+            <a href="#">Dashboard</a>
+        </li>
+        <li>
+            <a href="/tournament">Tournament</a>
+        </li>
+        <li>
+            <a href="/ranking">Ranking</a>
+        </li>
+        <li>
+            <a href="/edit-player">Player</a>
+        </li>
+        <li>
+            <a href="/tournament-board">Tournament board</a>
+        </li>
+    </ul>
+</div>
+
+<div class="container">
+    <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
+    <div id="chronoExample">
+
+        <div class="jumbotron text-center ">
+            <h1 class="display-1 values">00:00:00</h1>
+            <h2> LEVEL: <span id="level"></span></h2>
+            <h2> BLINDS : <span id="blindSmall"></span> <span> / </span> <span id="blindBig"></span></h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <button disabled="true" id="startButton" class="startButton btn btn-lg btn-success ">Start</button>
+                <button disabled="true" id="pauseButton" class="pauseButton btn btn-lg btn-primary">Pause</button>
+                <button disabled="true" id="stopButton" class="stopButton btn btn-lg btn-danger">Stop</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 text-center" style="height:70px;">
+            </div>
+        </div>
+        <div class="row marketing align-middle text-center al">
+
+            <div class="col-lg-1">
+                <p>#</p>
+                <p>LVL 1</p>
+                <p>LVL 2</p>
+                <p>LVL 3</p>
+                <p>LVL 4</p>
+                <p>LVL 5</p>
+            </div>
+
+            <div class="col-lg-2">
+                <label>Small blind</label>
+                <input type="number" class="blind form-control" value="5" id="lvl1small">
+                <input type="number" class="blind form-control" value="10" id="lvl2small">
+                <input type="number" class="blind form-control" value="20" id="lvl3small">
+                <input type="number" class="blind form-control" value="50" id="lvl4small">
+                <input type="number" class="blind form-control" value="100" id="lvl5small">
+            </div>
+
+            <div class="col-lg-2">
+                <label>Big blind</label>
+                <input type="number" class="blind form-control" value="10" id="lvl1big">
+                <input type="number" class="blind form-control" value="20" id="lvl2big">
+                <input type="number" class="blind form-control" value="50" id="lvl3big">
+                <input type="number" class="blind form-control" value="100" id="lvl4big">
+                <input type="number" class="blind form-control" value="200" id="lvl5big">
+            </div>
+
+            <div class="col-lg-1">
+                <p>#</p>
+                <p>LVL 6</p>
+                <p>LVL 7</p>
+                <p>LVL 8</p>
+                <p>LVL 9</p>
+                <p>LVL 10</p>
+            </div>
+
+            <div class="col-lg-2">
+                <label>Small blind</label>
+                <input type="number" class="blind form-control" value="200" id="lvl6small">
+                <input type="number" class="blind form-control" value="400" id="lvl7small">
+                <input type="number" class="blind form-control" value="800" id="lvl8small">
+                <input type="number" class="blind form-control" value="1600" id="lvl9small">
+                <input type="number" class="blind form-control" value="3200" id="lvl10small">
+            </div>
+
+
+            <div class="col-lg-2">
+                <label>Big blind</label>
+                <input type="number" class="blind form-control" value="400" id="lvl6big">
+                <input type="number" class="blind form-control" value="800" id="lvl7big">
+                <input type="number" class="blind form-control" value="1600" id="lvl8big">
+                <input type="number" class="blind form-control" value="3200" id="lvl9big">
+                <input type="number" class="blind form-control" value="5000" id="lvl10big">
+            </div>
+
+        </div>
+        <div class="row ">
+            <div class="col-lg-2">
+                LEVEL TIME: <span class="align-middle" id="level"></span><br/>
+                <input type="number" value="1" id="levelTime" class="blind form-control">
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 text-center">
+            <button id="saveButton" class="saveButton btn btn-lg btn-success">Save</button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<script src="js/stopwatch.js"></script>
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+</body>
+
+</html>

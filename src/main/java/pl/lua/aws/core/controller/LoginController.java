@@ -31,11 +31,6 @@ public class LoginController {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
-    @GetMapping("/main")
-    public String main() {
-
-        return "main";
-    }
 
 
     @GetMapping("/oauth_login")
