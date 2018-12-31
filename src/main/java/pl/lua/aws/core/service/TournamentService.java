@@ -100,6 +100,8 @@ public class TournamentService {
             }
             tournaments.add(tournament);
         });
+
+        tournaments.sort((d1,d2)->d1.getDate().compareTo(d2.getDate()));
         return tournaments;
     }
 

@@ -99,7 +99,7 @@
                     <tbody>
                     <th:block th:each="t , iter : ${tournaments}">
                         <tr class='clickable-row' data-href='url://' th:attr="data-href='tournament/'+${t.id}">
-                            <td th:text="${iter.index}">...</td>
+                            <td th:text="${iter.index+1}">...</td>
                             <td th:text="${#dates.format(t.date,'dd-MM-yyyy')}">...</td>
                             <td th:text="${t.name}">...</td>
                             <td th:text="${t.description}">...</td>
@@ -119,7 +119,8 @@
 
             </div>
 
-            <div class="col-md-8 col-md-offset-2">
+
+            <div th:if="${userAdmin}" class="col-md-8 col-md-offset-2">
                 <h3>Create new Tournament</h3>
                 <form class="form-horizontal" action="#" th:action="@{/create-tournament}" th:object="${newTournament}"
                       method="post">
