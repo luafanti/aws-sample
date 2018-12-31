@@ -94,21 +94,22 @@
                         <th scope="col">Date</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Finished</th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="t , iter : ${tournaments}">
                         <tr class='clickable-row' data-href='url://' th:attr="data-href='tournament/'+${t.id}">
                             <td th:text="${iter.index}">...</td>
-                            <td th:text="${t.date}">...</td>
+                            <td th:text="${#dates.format(t.date,'dd-MM-yyyy')}">...</td>
                             <td th:text="${t.name}">...</td>
                             <td th:text="${t.description}">...</td>
-                            <td th:text="${t.finished}">...</td>
+                            <td th:if="${t.finished}" >
+                                <a class="btn disabled btn-info" th:href="@{'#'}"> Finished</a>
+                            </td>
                             <td th:if="${!t.finished}" th:switch="${t.registered}">
-                                <a class="btn btn-secondary" th:case="false"
+                                <a class="btn btn-success" th:case="false"
                                    th:href="@{'/tournament/register/' + ${t.id}}"> Sing In</a>
-                                <a class="btn btn-secondary" th:case="true"
+                                <a class="btn btn-danger" th:case="true"
                                    th:href="@{'/tournament/unregister/' + ${t.id}}"> Sing Out</a>
                             </td>
                         </tr>

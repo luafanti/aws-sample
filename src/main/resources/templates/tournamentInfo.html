@@ -62,7 +62,7 @@
                 <div class=" col-md-offset-2">
                     <div class="page-header">
                         <h1 th:text="'Tournament: ' + ${tournament.name} "></h1>
-                        <h3 th:text="'Date: ' + ${tournament.date}" </h3>
+                        <h3 th:text="'Date: ' + ${#dates.format(tournament.date,'dd-MM-yyyy')}" </h3>
                     </div>
 
 

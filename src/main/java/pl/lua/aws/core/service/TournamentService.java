@@ -17,6 +17,9 @@ import pl.lua.aws.core.repository.TournamentScoresRepository;
 import pl.lua.aws.core.repository.UserRepository;
 import pl.lua.aws.core.util.Mapper;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,7 +92,7 @@ public class TournamentService {
 
         tournamentEntities.stream().forEach(t ->{
             Tournament tournament = Mapper.map(t,Tournament.class);
-            if(tournament.getDate()!=null && tournament.getDate().before(new Date())){
+            if(tournament.getDate()!=null && checkTournamentFinished(tournament.getDate())){
                 tournament.setFinished(true);
             }
             if(t.getScores().stream().filter(s -> s.getPlayer().getId().equals(playerId)).findAny().isPresent()) {
@@ -104,7 +107,7 @@ public class TournamentService {
         TournamentEntity tournamentEntity = tournamentRepository.getOne(tournamentId);
         if(tournamentEntity !=null ){
             Tournament tournament = Mapper.map(tournamentEntity,Tournament.class);
-            if(tournament.getDate()!=null && tournament.getDate().before(new Date())){
+            if(tournament.getDate()!=null && checkTournamentFinished(tournament.getDate())){
                 tournament.setFinished(true);
             }
             List<PokerPlayer> participants = new ArrayList<>();
@@ -122,5 +125,12 @@ public class TournamentService {
         }else {
             return null;
         }
+    }
+
+    private boolean checkTournamentFinished(Date tournamentDate){
+        LocalDateTime actualDateLDT = LocalDateTime.from(new Date().toInstant().atZone(ZoneId.of("UTC")));
+        LocalDateTime tournamentDateLDT = LocalDateTime.from(tournamentDate.toInstant().atZone(ZoneId.of("UTC"))).plusDays(1);
+
+        return tournamentDateLDT.isBefore(actualDateLDT);
     }
 }
