@@ -39,9 +39,9 @@ public class PlayerService {
     }
 
     public void savePlayerAvatar(MultipartFile avatarImage){
-        UploadS3Object avatar  = s3Service.uploadPlayerAvatar(avatarImage);
         PokerPlayerEntity pokerPlayerEntity = pokerPlayerRepository.getOne(userHelper.getPlayerId());
         s3Service.deletePlayerAvatar(pokerPlayerEntity.getAvatarFileName());
+        UploadS3Object avatar  = s3Service.uploadPlayerAvatar(avatarImage);
         pokerPlayerEntity.setAvatarUrl(URL_PREFIX+avatar.getFileName());
         pokerPlayerEntity.setAvatarFileName(avatar.getFileName());
         pokerPlayerRepository.save(pokerPlayerEntity);

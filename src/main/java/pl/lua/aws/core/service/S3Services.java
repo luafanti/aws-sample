@@ -7,5 +7,6 @@ public interface S3Services {
     byte[] downloadFile(String keyName);
     void uploadFile(MultipartFile file,String bucketName);
     UploadS3Object uploadPlayerAvatar(MultipartFile file);
+    UploadS3Object uploadTournamentPhoto(MultipartFile file);
     void deletePlayerAvatar(String fileName);
 }

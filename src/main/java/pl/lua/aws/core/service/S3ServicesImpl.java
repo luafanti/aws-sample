@@ -41,6 +41,10 @@ public class S3ServicesImpl implements S3Services {
     @Value("${aws.s3.avatar-bucket}")
     private String avatarBucketName;
 
+    @Value("${aws.s3.tournament-gallery-bucket}")
+    private String tournamentGalleryBucketName;
+
+
 
     @Autowired
     UploadFileRepository uploadFileRepository;
@@ -53,6 +57,14 @@ public class S3ServicesImpl implements S3Services {
         avatar.setFileName(file.getOriginalFilename());
         avatar.setFileSize(String.valueOf(file.getSize()));
         return avatar;
+    }
+
+    @Override
+    public UploadS3Object uploadTournamentPhoto(MultipartFile file) {
+        uploadFile(file,tournamentGalleryBucketName);
+        UploadS3Object photo= new UploadS3Object();
+        photo.setFileName(file.getOriginalFilename());
+        return photo;
     }
 
     @Override

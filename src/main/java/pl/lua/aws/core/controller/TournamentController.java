@@ -1,6 +1,7 @@
 package pl.lua.aws.core.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +9,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.lua.aws.core.domain.Tournament;
 import pl.lua.aws.core.domain.TournamentForm;
+import pl.lua.aws.core.domain.TournamentGallery;
 import pl.lua.aws.core.helper.UserHelper;
+import pl.lua.aws.core.repository.TournamentPhotoRepository;
 import pl.lua.aws.core.service.TournamentService;
 
 import javax.validation.Valid;
@@ -24,16 +27,17 @@ public class TournamentController {
     private UserHelper userHelper;
 
 
-
     @RequestMapping(value = "/tournament/{tournamentId}", method = RequestMethod.GET)
     public String tournamentInfo(@PathVariable String tournamentId, Model model) {
         Long id;
         try{
             id = Long.valueOf(tournamentId);
             Tournament tournament = tournamentService.getTournament(id);
+            TournamentGallery tournamentGallery = tournamentService.getTournamentGallery(id);
             model.addAttribute("tournament", tournament);
             model.addAttribute("players",tournament.getParticipants());
             model.addAttribute("userAdmin" ,userHelper.isAdminUser());
+            model.addAttribute("gallery", tournamentGallery);
             return "tournamentInfo";
 
         }catch (NumberFormatException e){

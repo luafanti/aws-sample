@@ -6,10 +6,18 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/gallery.css}"/>
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/simple-sidebar.css" rel="stylesheet">
     <!--  jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="../js/gallery.js"></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+          media="screen">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
 
     <script>
 
@@ -57,11 +65,12 @@
     <div id="page-content-wrapper">
         <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
         <div class="container">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-2">
 
-                <div class=" col-md-offset-2">
+
+                <div class=" col-md-offset-2 ">
                     <div class="page-header">
-                        <h1 th:text="'Tournament: ' + ${tournament.name} "></h1>
+                        <h1 th:text="'Tournament: ' + ${tournament.name} +' ' + ${tournament.id}"></h1>
                         <h3 th:text="'Date: ' + ${#dates.format(tournament.date,'dd-MM-yyyy')}" </h3>
                     </div>
 
@@ -120,17 +129,53 @@
                             </tbody>
                         </table>
                     </div>
+
+
+                    <h2 class="mg-top-header">Gallery </h2>
+                    <form class="form-horizontal " action="/tournament-photo" method="post"
+                          enctype="multipart/form-data"
+                          th:object="${gallery}">
+                        <div class="center">
+                            <label class="btn btn-secondary btn-file">
+                                Browse <input class=" btn-secondary" th:field="*{uploadedPhotos}" multiple="multiple"
+                                              type="file"
+                                              name="uploadedPhotos" style="display: none;">
+                            </label>
+                            <input name="tournamentId" type="hidden" th:field="*{tournamentId}"/>
+                            <input class="btn btn-primary" type="submit" value="Upload Photos">
+                        </div>
+                        <div class="form-group">
+                        </div>
+                    </form>
+
+                    <div class=" col-md-offset-2">
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-centered col-md-10">
+                    <div class="row">
+
+                        <div th:each="photoUrl : ${gallery.photoUrls}" class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <a th:href="${photoUrl}" class="fancybox" rel="ligthbox">
+                                <img th:src="${photoUrl}" class="zoom img-fluid " alt="">
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
+
+            <!-- Menu Toggle Script -->
+            <script>
+
+                $("#menu-toggle").click(function (e) {
+                    e.preventDefault();
+                    $("#wrapper").toggleClass("toggled");
+                });
+            </script>
 </body>
 </html>

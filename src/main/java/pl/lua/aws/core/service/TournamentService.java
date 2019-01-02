@@ -7,19 +7,17 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.lua.aws.core.domain.PokerPlayer;
 import pl.lua.aws.core.domain.Tournament;
 import pl.lua.aws.core.domain.TournamentForm;
+import pl.lua.aws.core.domain.TournamentGallery;
 import pl.lua.aws.core.helper.UserHelper;
 import pl.lua.aws.core.model.PokerPlayerEntity;
 import pl.lua.aws.core.model.TournamentEntity;
+import pl.lua.aws.core.model.TournamentPhotoEntity;
 import pl.lua.aws.core.model.TournamentScoresEntity;
-import pl.lua.aws.core.repository.PokerPlayerRepository;
-import pl.lua.aws.core.repository.TournamentRepository;
-import pl.lua.aws.core.repository.TournamentScoresRepository;
-import pl.lua.aws.core.repository.UserRepository;
+import pl.lua.aws.core.repository.*;
 import pl.lua.aws.core.util.Mapper;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +39,10 @@ public class TournamentService {
     private UserRepository userRepository;
 
     @Autowired
-    UserHelper userHelper;
+    private UserHelper userHelper;
+
+    @Autowired
+    private TournamentPhotoRepository tournamentPhotoRepository;
 
 
     @Transactional
@@ -103,6 +104,16 @@ public class TournamentService {
 
         tournaments.sort((d1,d2)->d1.getDate().compareTo(d2.getDate()));
         return tournaments;
+    }
+
+    public TournamentGallery getTournamentGallery(Long tournamentId){
+        List<TournamentPhotoEntity> tournamentPhotoEntities = tournamentPhotoRepository.findAllByTournamentId(tournamentId);
+        TournamentGallery tournamentGallery  = new TournamentGallery();
+        tournamentPhotoEntities.stream().forEach(photo->{
+            tournamentGallery.getPhotoUrls().add(photo.getPhotoUrl());
+        });
+        tournamentGallery.setTournamentId(tournamentId);
+        return tournamentGallery;
     }
 
     public Tournament getTournament(Long tournamentId){
