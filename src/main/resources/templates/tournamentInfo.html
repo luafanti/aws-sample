@@ -5,8 +5,9 @@
     <title>Poker</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>-->
     <link rel="stylesheet" type="text/css" th:href="@{../css/gallery.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/margins.css}"/>
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/simple-sidebar.css" rel="stylesheet">
     <!--  jQuery -->
@@ -65,12 +66,11 @@
     <div id="page-content-wrapper">
         <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
         <div class="container">
-            <div class="col-md-10 col-md-offset-2">
-
+            <div class="col-md-10 col-md-offset-2" style="margin:0 auto;">
 
                 <div class=" col-md-offset-2 ">
-                    <div class="page-header">
-                        <h1 th:text="'Tournament: ' + ${tournament.name} +' ' + ${tournament.id}"></h1>
+                    <div class="page-header header-center">
+                        <h1  th:text="'Tournament: ' + ${tournament.name}"></h1>
                         <h3 th:text="'Date: ' + ${#dates.format(tournament.date,'dd-MM-yyyy')}" </h3>
                     </div>
 
@@ -131,7 +131,7 @@
                     </div>
 
 
-                    <h2 class="mg-top-header">Gallery </h2>
+                    <h2 class="mg-top-header-gallery">Gallery </h2>
                     <form class="form-horizontal " action="/tournament-photo" method="post"
                           enctype="multipart/form-data"
                           th:object="${gallery}">

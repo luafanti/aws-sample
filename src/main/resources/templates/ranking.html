@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Ranking</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{../css/bootstrap.min.css}" id="bootstrap-css"/>
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/simple-sidebar.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/margins.css}"/>
     <!--  jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -55,47 +54,43 @@
     <div id="page-content-wrapper">
         <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
         <div class="container">
-            <div class="col-md-8 col-md-offset-2">
-
-                <div class=" col-md-offset-2">
-                    <div class="page-header">
-                        <h1> Ranking</h1>
-                    </div>
-
-                    <table class="table table-hover">
-                        <thead class="black white-text">
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">#</th>
-                            <th scope="col">Nick</th>
-                            <th scope="col">Total Points</th>
-                            <th scope="col">Wins</th>
-                            <th scope="col">Total Prize</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="s , iter : ${scores}">
-                            <tr class='clickable-row'>
-                                <td>
-                                    <img th:src="${s.avatarUrl}"
-                                         alt="" class="img-responsive img-rounded"
-                                         style="max-height: 30px; max-width: 30px;">
-                                </td>
-                                <td th:text="${iter.index +1}">...</td>
-                                <td th:text="${s.nickName}">...</td>
-                                <td th:text="${s.totalPoints}">...</td>
-                                <td th:text="${s.wins}">...</td>
-                                <td th:text="${s.totalPrize}">...</td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
-
+            <div class="col-md-10 col-md-offset-2" style="margin:0 auto;">
+                <div class="page-header">
+                    <h1 class="header-center">Ranking</h1>
                 </div>
+
+                <table class="table table-hover">
+                    <thead class="black white-text">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Nick</th>
+                        <th scope="col">Total Points</th>
+                        <th scope="col">Wins</th>
+                        <th scope="col">Total Prize</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="s , iter : ${scores}">
+                        <tr class='clickable-row'>
+                            <td>
+                                <img th:src="${s.avatarUrl}"
+                                     alt="" class="img-responsive img-rounded"
+                                     style="max-height: 30px; max-width: 30px;">
+                            </td>
+                            <td th:text="${iter.index +1}">...</td>
+                            <td th:text="${s.nickName}">...</td>
+                            <td th:text="${s.totalPoints}">...</td>
+                            <td th:text="${s.wins}">...</td>
+                            <td th:text="${s.totalPrize}">...</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+
             </div>
         </div>
 
-        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Menu Toggle Script -->
         <script>
             $("#menu-toggle").click(function (e) {
