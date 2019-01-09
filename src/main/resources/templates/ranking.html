@@ -7,6 +7,7 @@
     <link href="../css/simple-sidebar.css" rel="stylesheet">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{../css/margins.css}"/>
+    <link href="../css/table-custom.css" rel="stylesheet">
     <!--  jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -59,7 +60,7 @@
                     <h1 class="header-center">Ranking</h1>
                 </div>
 
-                <table class="table table-hover">
+                <table class="table table-hover table-custom">
                     <thead class="black white-text">
                     <tr>
                         <th scope="col"></th>
@@ -76,7 +77,7 @@
                             <td>
                                 <img th:src="${s.avatarUrl}"
                                      alt="" class="img-responsive img-rounded"
-                                     style="max-height: 30px; max-width: 30px;">
+                                     style="max-height: 80px; max-width: 80px;">
                             </td>
                             <td th:text="${iter.index +1}">...</td>
                             <td th:text="${s.nickName}">...</td>
