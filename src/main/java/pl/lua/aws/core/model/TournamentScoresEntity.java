@@ -14,6 +14,7 @@ public class TournamentScoresEntity {
     @GeneratedValue
     private Long id;
     private Integer points;
+    private Integer rebuy;
     private String place;
     @Column(columnDefinition = "DECIMAL(19,2)")
     private Double prize;
@@ -26,3 +27,4 @@ public class TournamentScoresEntity {
     @JoinColumn(name = "player_id")
     private PokerPlayerEntity player;
 }
+

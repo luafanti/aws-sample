@@ -39,6 +39,7 @@ public class ScoresService {
             scoresEntity.setPlace(score.getPlace());
             scoresEntity.setPoints(score.getPoints());
             scoresEntity.setPrize(score.getPrize());
+            scoresEntity.setRebuy(score.getRebuy());
             scoresRepository.save(scoresEntity);
             log.info("Saved score for player {}",score.getNickName());
         });

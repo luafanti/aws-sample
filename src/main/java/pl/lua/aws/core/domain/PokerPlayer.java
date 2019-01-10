@@ -13,5 +13,6 @@ public class PokerPlayer {
     private Integer points;
     private String place;
     private Double prize;
+    private Integer rebuy;
 
 }

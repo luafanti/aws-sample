@@ -72,6 +72,7 @@
                                 <th scope="col">Place</th>
                                 <th scope="col">Points</th>
                                 <th scope="col">Prize</th>
+                                <th scope="col">Rebuys</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -82,6 +83,7 @@
                                     <td><input type="number" th:field="*{participants[__${iter.index}__].place}"/></td>
                                     <td><input type="number" th:field="*{participants[__${iter.index}__].points}"/></td>
                                     <td><input type="number" th:field="*{participants[__${iter.index}__].prize}"/></td>
+                                    <td><input type="number" th:field="*{participants[__${iter.index}__].rebuy}"/></td>
                                     <input type="hidden" th:field="*{participants[__${iter.index}__].id}"/>
                                     <input type="hidden" th:field="*{participants[__${iter.index}__].nickName}"/>
                                 </tr>

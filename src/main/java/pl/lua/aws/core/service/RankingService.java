@@ -30,6 +30,7 @@ public class RankingService {
 
             List<TournamentScoresEntity> scoresEntities = player.getScores();
             Integer totalPoints = new Integer(0);
+            Integer totalRebuys = new Integer(0);
             Integer wins = new Integer(0);
             Double totalPrize = new Double(0L);
 
@@ -43,10 +44,14 @@ public class RankingService {
                 if(s.getPlace()!=null && s.getPlace().equals("1")){
                     wins+=1;
                 }
+                if(s.getRebuy()!=null){
+                    totalRebuys+=s.getRebuy();
+                }
             }
             playerScore.setTotalPrize(totalPrize);
             playerScore.setTotalPoints(totalPoints);
             playerScore.setWins(wins);
+            playerScore.setTotalRebuys(totalRebuys);
             playerScores.add(playerScore);
         });
 

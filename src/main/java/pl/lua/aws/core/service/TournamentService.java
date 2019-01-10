@@ -13,7 +13,10 @@ import pl.lua.aws.core.model.PokerPlayerEntity;
 import pl.lua.aws.core.model.TournamentEntity;
 import pl.lua.aws.core.model.TournamentPhotoEntity;
 import pl.lua.aws.core.model.TournamentScoresEntity;
-import pl.lua.aws.core.repository.*;
+import pl.lua.aws.core.repository.PokerPlayerRepository;
+import pl.lua.aws.core.repository.TournamentPhotoRepository;
+import pl.lua.aws.core.repository.TournamentRepository;
+import pl.lua.aws.core.repository.TournamentScoresRepository;
 import pl.lua.aws.core.util.Mapper;
 
 import java.time.LocalDateTime;
@@ -34,9 +37,6 @@ public class TournamentService {
 
     @Autowired
     private TournamentScoresRepository tournamentScoresRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserHelper userHelper;
@@ -131,6 +131,7 @@ public class TournamentService {
                         pokerPlayer.setPlace(score.getPlace());
                         pokerPlayer.setPoints(score.getPoints());
                         pokerPlayer.setPrize(score.getPrize());
+                        pokerPlayer.setRebuy(score.getRebuy());
                         participants.add(pokerPlayer);
                     });
             tournament.setParticipants(participants);
