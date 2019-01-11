@@ -22,6 +22,8 @@
 </head>
 <body>
 
+<div id="includedContent"></div>
+
 <div id="wrapper">
 
     <!-- Sidebar -->
@@ -99,6 +101,10 @@
             $("#menu-toggle").click(function (e) {
                 e.preventDefault();
                 $("#wrapper").toggleClass("toggled");
+            });
+
+            $(function(){
+                $("#includedContent").load("html/topBar.html");
             });
         </script>
 

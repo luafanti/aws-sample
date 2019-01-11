@@ -46,7 +46,11 @@
 
 <body>
 
+<div id="includedContent"></div>
+
 <div id="wrapper">
+
+
 
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -77,6 +81,7 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
+
         <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
         <div class="container">
             <div class="col-md-10 col-md-offset-2" style="margin:0 auto;">
@@ -161,6 +166,11 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
+    $(function(){
+        $("#includedContent").load("html/topBar.html");
+    });
+
 </script>
 </body>
 </html>
