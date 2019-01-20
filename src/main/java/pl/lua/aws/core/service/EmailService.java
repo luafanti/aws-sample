@@ -72,19 +72,4 @@ public class EmailService {
     }
 
 
-//
-//
-//
-//        AmazonSimpleEmailService sesService = AmazonSimpleEmailServiceClientBuilder.standard().withCredentials(credentialsProvider).withRegion(Regions.US_WEST_2).build();
-//        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-//        simpleMailMessage.setFrom("luafanti@gmail.com");
-//        simpleMailMessage.setTo("rafisrafikombain@gmail.com");
-//        simpleMailMessage.setSubject("subject");
-//        simpleMailMessage.setText("text");
-//
-////        RawMessage rawMessage = new RawMessage(ByteBuffer.wrap(outputStream.toByteArray()));
-//        SendRawEmailRequest rawEmailRequest = new SendRawEmailRequest(simpleMailMessage).withDestinations(Arrays.asList(recipient));
-//        SendEmailRequest emailRequest - new SendEmailRequest("ZXc","Zxc",simpleMailMessage);
-//        sesService.sendRawEmail(rawEmailRequest);
-
 }
