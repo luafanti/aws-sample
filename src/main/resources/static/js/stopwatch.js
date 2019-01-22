@@ -1,4 +1,5 @@
 var timer = new easytimer.Timer();
+var timer2 = new easytimer.Timer();
 var levelTime = parseInt(document.getElementById('levelTime').value);
 var fullTime = parseInt(document.getElementById('levelTime').value);
 var level = parseInt(1);
@@ -37,10 +38,11 @@ var blind14Big = parseInt(0);
 var blind15Big = parseInt(0);
 var blind16Big = parseInt(0);
 
-
+var audio = new Audio('../mp3/blindsUp.mp3');
 
 $('#chronoExample .startButton').click(function () {
     timer.start({precision: 'seconds'});
+    timer2.start({precision: 'seconds'});
     document.getElementById('level').innerHTML = level.toString();
     document.getElementById("saveButton").disabled = true;
 
@@ -52,11 +54,13 @@ $('#chronoExample .startButton').click(function () {
 
 $('#chronoExample .pauseButton').click(function () {
     timer.pause();
+    timer2.pause();
 
 });
 $('#chronoExample .stopButton').click(function () {
 
     timer.stop();
+    timer2.stop();
     level = parseInt(1);
     levelTime = parseInt(document.getElementById('levelTime').value);
     fullTime = parseInt(document.getElementById('levelTime').value);
@@ -124,11 +128,14 @@ $('#chronoExample .saveButton').click(function () {
 });
 
 
+
 timer.addEventListener('secondsUpdated', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
     $('#chronoExample .progress_bar').html($('#chronoExample .progress_bar').html() + '.');
 
+
     if (timer.getTotalTimeValues().seconds > fullTime) {
+        audio.play();
         alert("Blinds up !");
         level = level + 1;
         fullTime = fullTime + levelTime;
@@ -213,6 +220,17 @@ timer.addEventListener('secondsUpdated', function (e) {
     console.log("LEVEL TIME" + fullTime);
 });
 
+timer2.addEventListener('secondsUpdated', function (e) {
+
+    if(timer2.getTotalTimeValues().seconds == levelTime){
+        timer2.reset();
+        console.log("TIME TO RESTART !!!");
+
+    }
+
+    $('#chronoExample .values-small').html(timer2.getTimeValues().toString());
+});
+
 
 timer.addEventListener('started', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
@@ -221,42 +239,13 @@ timer.addEventListener('reset', function (e) {
     $('#chronoExample .values').html(timer.getTimeValues().toString());
 });
 
+timer2.addEventListener('reset', function (e) {
+    $('#chronoExample .values-small').html(timer2.getTimeValues().toString());
+});
+
 timer.addEventListener('targetAchieved', function (e) {
     $('#startValuesAndTargetExample .progress_bar').html('COMPLETE!!');
 });
 
 
-function popupOpenClose(popup) {
-
-    /* Add div inside popup for layout if one doesn't exist */
-    if ($(".wrapper").length == 0){
-        $(popup).wrapInner("<div class='wrapper'></div>");
-    }
-
-    /* Open popup */
-    $(popup).show();
-
-    /* Close popup if user clicks on background */
-    $(popup).click(function(e) {
-        if ( e.target == this ) {
-            if ($(popup).is(':visible')) {
-                $(popup).hide();
-            }
-        }
-    });
-
-    /* Close popup and remove errors if user clicks on cancel or close buttons */
-    $(popup).find("button[name=close]").on("click", function() {
-        if ($(".formElementError").is(':visible')) {
-            $(".formElementError").remove();
-        }
-        $(popup).hide();
-    });
-}
-
-$(document).ready(function () {
-    $("[data-js=open]").on("click", function() {
-        popupOpenClose($(".popup"));
-    });
-});
 
